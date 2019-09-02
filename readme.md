@@ -23,7 +23,7 @@
 对类来说的，即一个类应该只负责一项职责。如类 A 负责两个不同职责:职责 1，职责 2。当职责 1 需求变更而改变 A 时，可能造成职责 2 执行错误，所以需要将类 A 的粒度分解为 A1，A2。
 简单来说：一个类最好只负责一项职责。
 下面用代码来详细描述一下单一职责，方便理解：
-
+```cpp
 package com.zempty;
 //该 demo 就存在了一个问题： 飞机多是在空中飞行的，都集中在 vehicle 类中就显得不合适了
 public class SrpDemo {
@@ -40,9 +40,10 @@ class Vehicle {
         System.out.println(vehicle +"在公路上运行");
     }
 }
-
+```
 使用单一职责原则改进如下：
 
+```cpp
 package com.zempty.improve;
 // 该案例把 vehicle 的职责进行一个拆分，飞机飞的功能单独定义
 public class SrpDemo {
@@ -67,10 +68,9 @@ class AirPlane{
         System.out.println(plane +"在天空中飞着");
     }
 }
-
-
+```
 进一步的进行改进，通过增加方法，通过方法实现单一职责：
-
+```cpp
 package com.zempty.improve;
 
 // 有时候可以通过通过添加方法进行单一职责的实现，可以有效的避免类过多，如果添加的方法过多，建议添加类比较好
@@ -91,7 +91,7 @@ class Vehicle{
         System.out.println(plane + "在天空中飞着");
     }
 }
-
+```
 
 有时候可以通过添加适当的方法来实现单一职责，这样可以减少类的数量，但是方法的数量可能回增加。
 单一职责原则可以降低类的复杂度，一个类只负责一项职责；类的可读性比较好，维护起来比较方便。
@@ -105,10 +105,8 @@ class Vehicle{
 
 实例如下所示：
 
-(img)
-
 代码呈现如下所示：
-
+```cpp
 package com.zempty;
 
 public class IspDemp {
@@ -234,16 +232,15 @@ class D implements Test{
         System.out.println("test5 方法被调用了");
     }
 }
-
+```
 分析上述代码：从 main 方法中可以看到 A ,B 两个类分别用到了接口 Test 中的 test1 , test2 , test3  和 test1 ,test4 , test5 ，**这里有一个问题就是 A 中用到的接口实现类 C 中起到实质作用的就是 test1 ，test2 , test3 三个方法而已，其余方法多余了，根本用不到，但是仍然需要去实现 Test 接口中的其它方法。**
 
 下面遵守接口隔离原则进行一个改进如下：
-
+```cpp
 package com.zempty.improve;
 
 // 针对上面的情况进行改进，拆分接口
 public class IspDemo {
-
     public static void main(String[] args) {
         // a 中用到了接口中的 test1 ，test2 , test3 三个方法，c 是接口的实现类
         A a = new A();
@@ -262,17 +259,14 @@ public class IspDemo {
 
 }
 
-
 // A class
 class A {
     void test1(Test1 test) {
         test.test1();
     }
-
     void test2(Test2 test) {
         test.test2();
     }
-
     void test3(Test2 test) {
         test.test3();
     }
@@ -343,7 +337,7 @@ class D implements Test1,Test3{
         System.out.println("test5 方法被调用了");
     }
 }
-
+```
 改进后的方法拆分了接口，让实现类 C 和 D 只实现业务相关的方法，避免了不必要的实现。
 
 
@@ -353,7 +347,7 @@ class D implements Test1,Test3{
 相对于细节的多变性，抽象的东西要稳定的多。抽象呈现的是骨架，细节的呈现可以多种多样。这里的抽象在 Java 的世界里可以理解成是接口或者是抽象类。
 我们在使用 spring 框架的过程中可以体会到我们经常在各种 ctroller 中注入的是 service 的抽象类， service 层注入的是 dao 层的抽象类。
 下面用代码来相信说一下这个原则：
-
+```cpp
 package com.zempty;
 // 该段代码存在的问题就是如果，旅游坐飞机怎么班呢？这样拓展起来就会很麻烦
 public class DIPDemo {
@@ -378,10 +372,10 @@ class Car {
         return this.name;
     }
 }
-
+```
 
 分析上述代码可以看到一个问题，如果旅游的方式是飞机怎么办呢？这样拓展起来就比较麻烦了。因此，我们做一个改进：
-
+```cpp
 package com.zempty.improve;
 
 public class DIPDemo {
@@ -425,7 +419,7 @@ class Plane implements Tool{
         return this.name;
     }
 }
-
+```
 上述例子我们可以看到旅游类里面我们传入的是一个 Tool ，各种交通工具继承 Tool 接口，这样就方便我们更好的拓展各种交通工具类了。
 请记住依赖倒转原则，核心是面向接口进行编程，类和类之间的依赖关系最好使用抽象类或者是接口。
 
@@ -435,7 +429,7 @@ class Plane implements Tool{
 里氏替换的原则告诉我们当我们在使用继承的时候，子类最好的做法是不要继承父类已经实现的方法，继承容易增强类之间的的耦合性，最好的做法是使用类之间的依赖，组合，聚和来解决问题。
 
 下面用 demo 来说明一下问题：
-
+```cpp
 package com.zempty;
 
 public class LspDemo {
@@ -463,10 +457,9 @@ class B extends A {
         return a / b;
     }
 }
-
-
+```
 上面的这个例子，B 想使用父类 A 中的两数相减的方法是做不到了，因为重写了父类中的方法，那么应当如何进行改进呢？
-
+```cpp
 package com.zempty.improve;
 //改例子很好的解决了上述重写的问题，通过增加一个接口 Base ，接口中定义标准，A 和 B 去做具体的实现
 //这里 B 通过引入 A 的实例，间接地使用了 A 中两个数相减的方法
@@ -513,7 +506,7 @@ class B  implements Base{
        return base.test1(a,b);
     }
 }
-
+```
 上面的这个例子做了一个很好的改进，为了使用 A 中的方法，B 不在继承 A ，B中引入了 A , 这里面还使用了依赖倒转原则，没有直接在 B 中引入 A 的实例，而是通过在 B 中引入  A 的接口类 Base ，在 main 方法中具体使用的时候才注入 A 的实例对象，从而达到了使用 A 中方法的目的。
 
 ####  开闭原则(Open-Closed Principle)
@@ -522,7 +515,7 @@ class B  implements Base{
 用抽象构建基本框架，用实现展现具体的细节，尽量不去修改代码，有需求在现有的功能上去拓展就好。
 
 下面看一个 demo 进行分析如下：
-
+```cpp
 package com.zempty;
 // 解释一下这个代码：工厂类负责生产 A 类型的产品， A 类型有两个子产品：B 和 C
 //这段代码的最大问题就是当 A 类型的产品增加了，现在拓展了一个子产品 D ，这样麻烦就出现了。
@@ -564,12 +557,11 @@ class C extends A {
     }
 
 }
-
-
+```
 上面这个例子就违反了开闭原则，如果我新增加了一个 A 类型的产品线必须要修改代码来实现功能需求，开闭原则提倡的是不修改，只拓展。
 
 改进后的代码如下：
-
+```cpp
 package com.zempty.improve;
 // 该案例对工厂 Factory 做了一个改进，工厂类只定义一个生产方法 produce ，具体生产什么产品有具体的工厂子类型进行加工处理即可
 public class OcpDemo {
@@ -613,7 +605,7 @@ class C extends A {
     }
 
 }
-
+```
 经过这样改造以后，当拓展产品线的时候就不会修改代码，我们只需要把关注点放在要关注的功能上就好，拓展哪一条产品线我就组建一个该产品线的一个小工厂。
 开闭原则在软件设计当中是非常重要的一个原则，毕竟在原有的软件上加功能要比改功能要舒服的多。
 
@@ -625,7 +617,7 @@ class C extends A {
 迪米特法则遵守的就是两个类只构成直接朋友的关系。
 
 下面来参考两个 demo ：
-
+```cpp
 package com.zempty;
 /*
 * 这是一个相当简单的 demo，总共就三个类 A ，B，C
@@ -657,11 +649,11 @@ class C{
         System.out.println("c的方法运行了");
     }
 }
-
+```
 上面的这个例子 A 中有一个 C ，这个 C 的存在违背了迪米特法则。
 
 下面改进代码如下：
-
+```cpp
 package com.zempty.improve;
 /*
 * 分析一下这个改进的 demo ，同上一个 demo 的效果相同
@@ -702,7 +694,7 @@ class C{
         System.out.println("c的方法运行了");
     }
 }
-
+```
 这个改进的 demo 中 A 和 B 是直接的朋友关系，B 和 C是直接的朋友关系，两个类之间没有第三者的存在。
 
 记住迪米特法则：你是我的朋友，关于你朋友的信息，你告诉我就行了，我不需要正面去接触你的朋友。
@@ -714,7 +706,7 @@ class C{
 合成复用原则弱化了类之间的关系，A 依赖 B ， B 只对 A 提供方法，具体的方法实现细节 A 看不到，也无法进行修改。
 
 下面看两个 demo :
-
+```cpp
 package com.zempty;
 /*
 * 这是一个非常容易理解的一个 demo , B 继承 A ，目的是要使用 A 中的 test（）方法
@@ -740,9 +732,9 @@ class A {
 class B extends A {
 
 }
-
+```
 改进后的 demo 如下 ：
-
+```cpp
 package com.zempty.improve;
 /*
 * 这个改进的 demo， B 用到 A 中的方法是通过依赖去实现的
@@ -771,6 +763,6 @@ class B {
         a.test();
     }
 }
-
+```
 通过上面的 demo 我们可以发现两个类之间通过依赖要优于继承。
 记住合成复用原则：减少继承的使用，用依赖去实现效果更好。
